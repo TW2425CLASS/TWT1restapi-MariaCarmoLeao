@@ -7,10 +7,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const alunosRouter = require('./routes/alunos.routes');
+const alunosRouter = require('./backend/routes/alunos.routes');
 app.use('/alunos', alunosRouter);
 
-const cursosRouter = require('./routes/cursos.routes');
+const cursosRouter = require('./backend/routes/cursos.routes');
 app.use('/cursos', cursosRouter);
 
 mongoose.connect('mongodb+srv://user1:12345@cluster0.d47mvin.mongodb.net/academicos')
