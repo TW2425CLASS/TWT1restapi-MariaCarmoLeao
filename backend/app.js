@@ -1,3 +1,5 @@
+require('dotenv').config(); 
+
 const express = require('express');
 const mongoose = require('mongoose');
 const alunoRoutes = require('./routes/alunos.routes');
@@ -16,9 +18,9 @@ mongoose.connect(process.env.MONGO_URI)
 app.use('/alunos', alunoRoutes);
 app.use('/api/cursos', cursoRoutes);
 
-module.exports = app;
-
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`Servidor a correr na porta ${PORT}`);
 });
+
+module.exports = app;
