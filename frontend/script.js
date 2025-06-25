@@ -1,5 +1,5 @@
-const apiUrl = 'http://localhost:3001/alunos'; // Endpoint alunos
-const cursosUrl = 'http://localhost:3001/cursos'; // Endpoint cursos
+const apiUrl = 'https://twt1restapi-mariacarmoleao-4.onrender.com/alunos';
+const cursosUrl = 'https://twt1restapi-mariacarmoleao-4.onrender.com/cursos';
 
 const listaAlunos = document.getElementById('listaAlunos');
 const form = document.getElementById('alunoForm');
