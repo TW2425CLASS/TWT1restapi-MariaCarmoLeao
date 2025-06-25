@@ -16,5 +16,8 @@
     "url": "https://github.com/TW2425CLASS/TWT1restapi-MariaCarmoLeao/issues"
   },
   "homepage": "https://github.com/TW2425CLASS/TWT1restapi-MariaCarmoLeao#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5"
+  }
 }

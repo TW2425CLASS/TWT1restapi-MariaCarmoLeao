@@ -1,12 +1,13 @@
 require('dotenv').config(); 
 
+const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 const alunoRoutes = require('./routes/alunos.routes');
 const cursoRoutes = require('./routes/cursos.routes');
 
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 
 // Conexão à base de dados MongoDB Atlas
