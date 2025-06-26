@@ -18,6 +18,7 @@
   "homepage": "https://github.com/TW2425CLASS/TWT1restapi-MariaCarmoLeao#readme",
   "description": "",
   "dependencies": {
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "mongoose": "^8.16.0"
   }
 }
