@@ -190,7 +190,7 @@ async function editarCurso(id) {
 }
 
 // Submeter novo curso
-secondform.addEventListener('submit', async (e) => {
+secondform !== null && secondform.addEventListener('submit', async (e) => {
   e.preventDefault();
   const cursoData = {
     nome: nomeCursoInput.value.trim(),
