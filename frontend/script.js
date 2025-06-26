@@ -9,7 +9,14 @@ const anoCurricularInput = document.getElementById('anoCurricular');
 const cursoInput = document.getElementById('curso');
 const mensagemDiv = document.getElementById('mensagem');
 
-let alunoEditandoId = null;
+const listaCursos = document.getElementById('listaCursos');
+const secondform = document.getElementById('cursoForm');
+const nomeCursoInput = document.getElementById('nomecurso');
+const instituicaoInput = document.getElementById('instituicao');
+const numCurricularInput = document.getElementById('numCurricular');
+
+let alunoEditandoId = null; // Variável para armazenar o ID do aluno que está a ser editado
+let cursoEditandoId = null;
 
 // Mostrar mensagens de feedback
 function mostrarMensagem(texto, cor = 'green') {
@@ -41,23 +48,26 @@ async function carregarAlunos() {
   }
 }
 
-// Carregar lista de cursos
 async function carregarCursos() {
+  listaCursos.innerHTML = '';
   try {
     const res = await fetch(cursosUrl);
     if (!res.ok) {
-      throw new Error(`Erro na resposta: ${res.status}`);
+      throw new Error(`Erro ao buscar cursos: ${res.status} ${res.statusText}`);
     }
     const cursos = await res.json();
-    const selectCurso = document.getElementById('curso');
     cursos.forEach(curso => {
-      const option = document.createElement('option');
-      option.value = curso.nome;
-      option.textContent = curso.nome;
-      selectCurso.appendChild(option);
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span>${curso.nome} (${curso.instituicao || ''}, ${curso.numCurricular || ''} anos)</span>
+        <button onclick="removerCurso('${curso._id}')">Remover</button>
+        <button onclick="editarCurso('${curso._id}')">Editar</button>
+      `;
+      listaCursos.appendChild(li);
     });
-  } catch (err) {
-    console.error('Erro ao carregar cursos:', err);
+  } catch (error) {
+    console.error(error);
+    listaCursos.innerHTML = '<li>Erro ao carregar cursos.</li>';
   }
 }
 
@@ -147,6 +157,91 @@ async function editarAluno(id) {
     mostrarMensagem('Erro ao carregar dados do aluno', 'red');
   }
 }
+
+// Remover curso
+async function removerCurso(id) {
+  try {
+    const res = await fetch(`${cursosUrl}/${id}`, { method: 'DELETE' });
+    if (!res.ok) {
+      throw new Error(`Erro ao remover curso: ${res.status}`);
+    }
+    carregarCursos();
+  } catch (error) {
+    console.error(error);
+    mostrarMensagem('Erro ao remover curso', 'red');
+  }
+}
+
+// Editar curso
+async function editarCurso(id) {
+  try {
+    const res = await fetch(`${cursosUrl}/${id}`);
+    if (!res.ok) throw new Error('Erro ao buscar curso');
+    const curso = await res.json();
+    nomeCursoInput.value = curso.nome;
+    instituicaoInput.value = curso.instituicao || '';
+    numCurricularInput.value = curso.numCurricular || '';
+    cursoEditandoId = id;
+    secondform.querySelector('button[type="submit"]').textContent = 'Guardar Alterações';
+  } catch (error) {
+    console.error(error);
+    mostrarMensagem('Erro ao carregar dados do curso', 'red');
+  }
+}
+
+// Submeter novo curso
+secondform.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const cursoData = {
+    nome: nomeCursoInput.value.trim(),
+    instituicao: instituicaoInput.value.trim(),
+    numCurricular: numCurricularInput.value.trim()
+  };
+
+  if (!cursoData.nome || !cursoData.instituicao || !cursoData.numCurricular) {
+    mostrarMensagem('Por favor preencha todos os campos do curso', 'red');
+    return;
+  }
+
+  try {
+    if (cursoEditandoId) {
+      // Atualizar curso existente
+      const res = await fetch(`${cursosUrl}/${cursoEditandoId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cursoData)
+      });
+      if (res.ok) {
+        mostrarMensagem('Curso atualizado com sucesso', 'green');
+        secondform.reset();
+        cursoEditandoId = null;
+        secondform.querySelector('button[type="submit"]').textContent = 'Adicionar Curso';
+        carregarCursos();
+      } else {
+        mostrarMensagem('Erro ao atualizar curso', 'red');
+      }
+    } else {
+      // Adicionar novo curso
+      const res = await fetch(cursosUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cursoData)
+      });
+      if (res.status === 409) {
+        mostrarMensagem('Curso já existente', 'red');
+      } else if (res.ok) {
+        mostrarMensagem('Curso adicionado com sucesso', 'green');
+        secondform.reset();
+        carregarCursos();
+      } else {
+        mostrarMensagem('Erro ao adicionar curso', 'red');
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    mostrarMensagem('Erro na comunicação com o servidor', 'red');
+  }
+});
 
 // Inicializar
 carregarAlunos();

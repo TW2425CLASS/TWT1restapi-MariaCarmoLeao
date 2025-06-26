@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Rotas
 app.use('/alunos', alunoRoutes);
-app.use('/api/cursos', cursoRoutes);
+app.use('/cursos', cursoRoutes);
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
