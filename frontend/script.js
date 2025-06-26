@@ -42,6 +42,24 @@ async function carregarAlunos() {
       `;
       listaAlunos.appendChild(li);
     });
+
+    const cursosRes = await fetch(cursosUrl);
+    if (!cursosRes.ok) {
+      throw new Error(`Erro ao buscar cursos: ${cursosRes.status} ${cursosRes.statusText}`);
+    }
+    // Preencher o dropdown de cursos
+    const cursos = await cursosRes.json();
+    if (cursos.length === 0) {
+      cursoInput.innerHTML = '<option value="">Nenhum curso disponível</option>';
+      cursoInput.disabled = true;
+      return;
+    }
+    cursos.forEach(curso => {
+      const option = document.createElement('option');
+      option.value = curso._id;
+      option.textContent = `${curso.nome} (${curso.instituicao || ''}, ${curso.numCurricular || ''} anos)`;
+      cursoInput.appendChild(option);
+    });
   } catch (error) {
     console.error(error);
     listaAlunos.innerHTML = '<li>Erro ao carregar alunos.</li>';
