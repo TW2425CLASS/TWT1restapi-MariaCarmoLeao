@@ -2,7 +2,7 @@ const apiUrl = 'https://twt1restapi-mariacarmoleao-4.onrender.com/alunos';
 const cursosUrl = 'https://twt1restapi-mariacarmoleao-4.onrender.com/cursos';
 
 const listaAlunos = document.getElementById('listaAlunos');
-const form = document.getElementById('alunoForm');
+const firstform = document.getElementById('alunoForm');
 const nomeInput = document.getElementById('nome');
 const apelidoInput = document.getElementById('apelido');
 const anoCurricularInput = document.getElementById('anoCurricular');
@@ -72,7 +72,7 @@ async function carregarCursos() {
 }
 
 // Submeter novo aluno
-form.addEventListener('submit', async (e) => {
+if(firstform !== null) firstform.addEventListener('submit', async (e) => {
   e.preventDefault();
   const alunoData = {
     nome: nomeInput.value.trim(),
@@ -190,7 +190,7 @@ async function editarCurso(id) {
 }
 
 // Submeter novo curso
-secondform !== null && secondform.addEventListener('submit', async (e) => {
+if(secondform !== null) secondform.addEventListener('submit', async (e) => {
   e.preventDefault();
   const cursoData = {
     nome: nomeCursoInput.value.trim(),
