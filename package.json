@@ -1,0 +1,23 @@
+{
+  "name": "twt1restapi-mcarmoleao",
+  "version": "1.0.0",
+  "description": "- Maria do Carmo, nº30382",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TW2425CLASS/TWT1restapi-MariaCarmoLeao.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TW2425CLASS/TWT1restapi-MariaCarmoLeao/issues"
+  },
+  "homepage": "https://github.com/TW2425CLASS/TWT1restapi-MariaCarmoLeao#readme"
+}
